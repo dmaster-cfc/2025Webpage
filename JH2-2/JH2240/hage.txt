@@ -1,0 +1,22 @@
+<html>
+　　<head>
+      <title>学校紹介　jh2240 吉田進一郎</title>
+    </head>
+    <body background="picture.jpg">   
+      <h1>大阪府立水都国際中学校・高等学校</h1>
+       個性豊かな淫夢厨が多い学校です<br>
+
+　　<img scr="hage.jpg"width="50%"height="40%"
+  <h2>とても楽しい学校です。特にJH2-2のTさんはハンサムです</h2><br clear="left">
+
+
+        <hr size ="6"coler="blue">
+        <h1>リンク</h1>
+        <a href="https://osaka-city-ib.jp/">大阪府立水都国際中学校・高等学校</a><br>
+        <a href="https://www,yahoo.co.jp/">やほお<a/><br>
+        <a href="file:///media/fuse/drivefs-b3fc68fb81d4d395dd7287e9cc040999/.files-by-id/13085/JH2206/index.html">出席番号が前の人</a>
+         <a hefl="file:///media/fuse/drivefs-b3fc68fb81d4d395dd7287e9cc040999/.files-by-id/13064/JH2227/index.html">出席番号が後ろの人</a>
+            
+
+        </body>
+</html>

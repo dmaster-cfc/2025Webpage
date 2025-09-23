@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>きのこ日和 — きのこ好きのためのブログ</title>
+  <meta name="description" content="食用・毒・観察記・レシピまで。きのこ好きのためのシンプルで速いブログ。" />
+  <meta name="author" content="あなたの名前" />
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="きのこ日和 — きのこ好きのためのブログ" />
+  <meta property="og:description" content="食用・毒・観察記・レシピまで。きのこ好きのためのシンプルで速いブログ。" />
+  <meta property="og:image" content="/ogp.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🍄</text></svg>">
+  <style>
+    /* ---- CSS: 自前で完結（CDN不要） ---- */
+    :root{
+      --bg: #fff9f5;         /* きのこ的やさしい生成色 */
+      --paper:#ffffff;
+      --ink:#1a1a1a;
+      --muted:#6b6b6b;
+      --brand:#b63b2a;       /* ベニテングタケ風 */
+      --brand-2:#266a2e;     /* 苔色 */
+      --ring: rgba(182,59,42,.35);
+      --shadow: 0 10px 25px rgba(0,0,0,.08);
+      --radius: 16px;
+    }
+    @media (prefers-color-scheme: dark){
+      :root{ --bg:#0e0f10; --paper:#16181a; --ink:#eceff1; --muted:#9aa4ad; --ring: rgba(182,59,42,.5);} 
+    }
+    [data-theme="dark"]{ --bg:#0e0f10; --paper:#16181a; --ink:#eceff1; --muted:#9aa4ad; --ring: rgba(182,59,42,.5);} 
+
+    *{box-sizing:border-box}
+    html,body{margin:0; padding:0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif; color:var(--ink); background:var(--bg);}
+
+    .container{max-width:1100px; margin:0 auto; padding:24px;}
+
+    /* Header */
+    header{position:sticky; top:0; z-index:30; backdrop-filter:saturate(180%) blur(12px); background: color-mix(in lab, var(--bg) 80%, transparent); border-bottom:1px solid color-mix(in lab, var(--muted) 20%, transparent);}
+    .nav{display:flex; align-items:center; gap:16px;}
+    .logo{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.02em;}
+    .logo .emoji{font-size:24px}
+    .spacer{flex:1}
+    .btn{appearance:none; border:none; background:var(--paper); color:var(--ink); padding:10px 14px; border-radius:12px; box-shadow: var(--shadow); cursor:pointer; font-weight:600;}
+    .btn:hover{outline:2px solid var(--ring)}
+
+    .tag{display:inline-block; font-size:12px; padding:6px 10px; border-radius:999px; background:color-mix(in lab, var(--brand) 12%, var(--paper)); color:var(--brand);}
+
+    /* Hero */
+    .hero{display:grid; grid-template-columns: 1.2fr .8fr; gap:20px; align-items:center; padding:28px 0;}
+    .hero .card{padding:22px; border-radius: var(--radius); background:var(--paper); box-shadow:var(--shadow);}
+    .hero h1{font-size: clamp(28px, 5vw, 44px); margin:0 0 8px;}
+    .hero p{margin:0; color:var(--muted)}
+
+    /* Search */
+    .searchbar{display:flex; gap:10px; align-items:center; padding:14px; background:var(--paper); border-radius:12px; box-shadow:var(--shadow);}
+    .searchbar input{flex:1; border:none; outline:none; background:transparent; color:var(--ink); font-size:16px}
+
+    /* Grid */
+    .grid{display:grid; grid-template-columns: repeat(3, 1fr); gap:18px;}
+    @media (max-width: 900px){ .hero{grid-template-columns:1fr} .grid{grid-template-columns: repeat(2,1fr);} }
+    @media (max-width: 560px){ .grid{grid-template-columns:1fr;} }
+
+    .card{background:var(--paper); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; display:flex; flex-direction:column;}
+    .card img{width:100%; aspect-ratio: 16/9; object-fit:cover; display:block}
+    .card .body{padding:16px}
+    .card h3{margin:6px 0 6px; font-size: clamp(18px, 2.6vw, 22px);}
+    .meta{display:flex; gap:10px; align-items:center; color:var(--muted); font-size:13px}
+
+    /* Article page */
+    .post{background:var(--paper); border-radius:var(--radius); box-shadow:var(--shadow); padding:24px;}
+    .post h1{margin-top:0}
+    .post figure{margin:0;}
+    .post img{width:100%; border-radius:12px}
+    .post .prose{line-height:1.9;}
+    .post pre{padding:12px; background:#0b1020; color:#d1e0ff; border-radius:10px; overflow:auto}
+
+    /* Footer */
+    footer{padding:48px 0; color:var(--muted);}
+    .footer-grid{display:grid; grid-template-columns: 2fr 1fr; gap:20px}
+    @media (max-width: 700px){ .footer-grid{grid-template-columns:1fr} }
+
+    /* Small helpers */
+    .row{display:flex; gap:12px; align-items:center}
+    .pill{padding:8px 12px; border:1px dashed color-mix(in lab, var(--brand) 25%, var(--paper)); border-radius:999px}
+    a{color:var(--brand)}
+  </style>
+</head>
+<body>
+  <!-- ========================================================
+       きのこブログ テンプレート
+       - 一覧トップと記事ページの両方の例を同一ファイルに収録
+       - 最低限のJSでダークモード・検索フィルタ対応
+       - 画像は自由に差し替えてください（/images/... は仮パス）
+       ======================================================== -->
+
+  <header>
+    <div class="container nav" role="navigation" aria-label="メイン">
+      <div class="logo" onclick="scrollToTop()" style="cursor:pointer">
+        <span class="emoji" aria-hidden="true">🍄</span>
+        <span>きのこ日和</span>
+        <span class="tag">観察記・食べ方・注意</span>
+      </div>
+      <div class="spacer"></div>
+      <button class="btn" id="toggleTheme" aria-pressed="false" aria-label="ダークモード切替">🌗 テーマ</button>
+      <a class="btn" href="#about">このブログについて</a>
+    </div>
+  </header>
+
+  <main class="container" id="top" aria-live="polite">
+    <section class="hero" id="home">
+      <div class="card">
+        <h1>森へようこそ。きのこの世界を、やさしく深く。</h1>
+        <p>採集マナー、見分け方、レシピ、図鑑メモ。初心者から上級者まで楽しめる内容を目指しています。※ 不明なきのこは絶対に食べないでください。</p>
+      </div>
+      <div class="row">
+        <div class="searchbar" role="search">
+          <input id="q" type="search" placeholder="記事を検索（例：ベニテングタケ、菌輪、レシピ）" aria-label="記事検索" />
+          <button class="btn" id="clearBtn">クリア</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 記事一覧（カード） -->
+    <section aria-label="最新記事">
+      <div class="grid" id="cards">
+        <!-- カードの雛形。data-tags に分類タグをカンマ区切りで -->
+        <article class="card" data-title="ベニテングタケの観察" data-tags="観察記,毒きのこ,秋">
+          <img src="images/amanita.jpg" alt="ベニテングタケの鮮やかな赤い傘" />
+          <div class="body">
+            <div class="meta"><span>2025/08/01</span> <span>・</span> <span>観察記</span></div>
+            <h3><a href="#post-amanita" onclick="openPost('post-amanita')">ベニテングタケの森歩きメモ</a></h3>
+            <p>鮮烈な赤に白いイボ。食用ではないが、出会えると嬉しいアイコン的存在。</p>
+            <div class="row">
+              <span class="pill">注意喚起</span>
+              <span class="pill">識別ポイント</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-title="ハタケシメジのレシピ" data-tags="レシピ,食用,秋">
+          <img src="images/hatakishimeji.jpg" alt="ハタケシメジのソテー" />
+          <div class="body">
+            <div class="meta"><span>2025/07/20</span> <span>・</span> <span>レシピ</span></div>
+            <h3><a href="#post-hatake" onclick="openPost('post-hatake')">ハタケシメジの香りを生かす簡単ソテー</a></h3>
+            <p>しっかりした歯ごたえと旨味。下処理と塩加減が決め手です。</p>
+            <div class="row">
+              <span class="pill">下処理</span>
+              <span class="pill">味付け</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-title="菌輪の仕組み" data-tags="コラム,生態,トリビア">
+          <img src="images/fairy-ring.jpg" alt="芝生に現れた菌輪" />
+          <div class="body">
+            <div class="meta"><span>2025/06/05</span> <span>・</span> <span>コラム</span></div>
+            <h3><a href="#post-fairy" onclick="openPost('post-fairy')">芝生に現れる「菌輪」はなぜできる？</a></h3>
+            <p>円を描くように広がる菌糸。栄養と土壌の関係をやさしく解説します。</p>
+            <div class="row">
+              <span class="pill">生態</span>
+              <span class="pill">豆知識</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- 記事ページ（サンプルを同一ページに隠し持つ） -->
+    <section id="post" style="display:none; margin-top:24px">
+      <article class="post" id="post-amanita" hidden>
+        <header class="meta" style="margin-bottom:8px">
+          <a href="#top" onclick="closePost()">← 戻る</a>
+          <span>・</span><time datetime="2025-08-01">2025/08/01</time>
+          <span>・</span><span>観察記 / 毒注意</span>
+        </header>
+        <h1>ベニテングタケの森歩きメモ</h1>
+        <figure>
+          <img src="images/amanita.jpg" alt="赤い傘に白いイボのベニテングタケ" />
+          <figcaption class="meta">撮影地：○○高原のカラマツ林 / 標高1,400m</figcaption>
+        </figure>
+        <div class="prose">
+          <p>秋の針葉樹林でよく見られる<strong>ベニテングタケ（Amanita muscaria）</strong>。鮮やかな見た目に反して<strong>有毒</strong>です。観察のみで楽しみましょう。</p>
+          <h2>識別ポイント</h2>
+          <ul>
+            <li>赤い傘に白いイボ（雨で流れると薄くなる）</li>
+            <li>条線のあるつば、白い柄、基部のつぼ痕</li>
+            <li>針葉樹（トウヒ・カラマツ等）との共生が多い</li>
+          </ul>
+          <h2>採集マナー</h2>
+          <p>保護区域では採らない。私有地は許可を得る。根元から無理に抜かず、周囲の菌糸を傷めない配慮を。</p>
+          <blockquote>不明なきのこは<strong>絶対に食べない</strong>。SNSの断片情報を鵜呑みにしない。</blockquote>
+        </div>
+      </article>
+
+      <article class="post" id="post-hatake" hidden>
+        <header class="meta" style="margin-bottom:8px">
+          <a href="#top" onclick="closePost()">← 戻る</a>
+          <span>・</span><time datetime="2025-07-20">2025/07/20</time>
+          <span>・</span><span>レシピ / 食用</span>
+        </header>
+        <h1>ハタケシメジの香りを生かす簡単ソテー</h1>
+        <figure>
+          <img src="images/hatakishimeji.jpg" alt="フライパンでソテーしたハタケシメジ" />
+          <figcaption class="meta">下処理：石づきを落として汚れをふき取る</figcaption>
+        </figure>
+        <div class="prose">
+          <h2>材料（2人分）</h2>
+          <ul>
+            <li>ハタケシメジ 200g</li>
+            <li>塩 少々 / 胡椒 少々</li>
+            <li>オリーブオイル 大さじ1</li>
+            <li>にんにく 1片（みじん）</li>
+          </ul>
+          <h2>作り方</h2>
+          <ol>
+            <li>強めの中火でフライパンを温め、オイルとにんにくを香りが出るまで。</li>
+            <li>きのこを広げ入れ、触らず片面を軽く焼き色→返して塩胡椒。</li>
+            <li>仕上げに火を止め、好みで醤油をひと回し。</li>
+          </ol>
+          <p class="meta">※ 誤同定の可能性がある採集品は調理しないでください。</p>
+        </div>
+      </article>
+
+      <article class="post" id="post-fairy" hidden>
+        <header class="meta" style="margin-bottom:8px">
+          <a href="#top" onclick="closePost()">← 戻る</a>
+          <span>・</span><time datetime="2025-06-05">2025/06/05</time>
+          <span>・</span><span>コラム</span>
+        </header>
+        <h1>芝生に現れる「菌輪」はなぜできる？</h1>
+        <div class="prose">
+          <p>菌糸が円状に外へ広がると、栄養分の使われ方にムラが生じ、環状の濃淡やきのこの並びが観察されます。</p>
+          <h2>キーワード</h2>
+          <ul>
+            <li>栄養塩の枯渇帯</li>
+            <li>菌糸の先端成長</li>
+            <li>芝生管理との関係</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <section id="about" style="margin-top:40px">
+      <div class="post">
+        <h2>このブログについて</h2>
+        <p>個人によるきのこブログです。安全第一で、観察・撮影・調理の楽しさを共有します。<br>お問い合わせ：<a href="mailto:you@example.com">you@example.com</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <strong>© <span id="year"></span> きのこ日和</strong><br/>
+        <span class="meta">写真・記事の無断転載はご遠慮ください。</span>
+      </div>
+      <div class="meta">
+        <div>分類タグの例：</div>
+        <div class="row" aria-label="タグ一覧">
+          <span class="pill">食用</span>
+          <span class="pill">毒きのこ</span>
+          <span class="pill">観察記</span>
+          <span class="pill">レシピ</span>
+          <span class="pill">生態</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ---- JS: 検索フィルタ・ダークモード・簡易ルーター ----
+    const $ = (q) => document.querySelector(q);
+    const $$ = (q) => Array.from(document.querySelectorAll(q));
+
+    // 年表示
+    $('#year').textContent = new Date().getFullYear();
+
+    // テーマ
+    const root = document.documentElement;
+    const themeBtn = $('#toggleTheme');
+    const saved = localStorage.getItem('theme');
+    if(saved === 'dark') document.documentElement.setAttribute('data-theme','dark');
+    themeBtn.addEventListener('click', () => {
+      const isDark = root.getAttribute('data-theme') === 'dark';
+      root.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      localStorage.setItem('theme', isDark ? 'light' : 'dark');
+      themeBtn.setAttribute('aria-pressed', String(!isDark));
+    });
+
+    // 検索
+    const input = $('#q');
+    const clearBtn = $('#clearBtn');
+    const cards = $$('#cards .card');
+
+    function filter(){
+      const q = input.value.trim().toLowerCase();
+      cards.forEach(card => {
+        const title = card.dataset.title.toLowerCase();
+        const tags = card.dataset.tags.toLowerCase();
+        const hit = title.includes(q) || tags.includes(q);
+        card.style.display = hit ? '' : 'none';
+      });
+    }
+    input.addEventListener('input', filter);
+    clearBtn.addEventListener('click', ()=>{ input.value=''; filter(); input.focus(); });
+
+    // 簡易ルーター（同一ページで記事詳細を表示/非表示）
+    function openPost(id){
+      $('#home').style.display = 'none';
+      $('#post').style.display = '';
+      $$('#post article').forEach(a => a.hidden = true);
+      document.getElementById(id).hidden = false;
+      window.scrollTo({top:0, behavior:'smooth'});
+      history.pushState({post:id}, '', '#'+id);
+    }
+    function closePost(){
+      $('#home').style.display = '';
+      $('#post').style.display = 'none';
+      history.pushState({}, '', '#top');
+    }
+    window.openPost = openPost;
+    window.closePost = closePost;
+    window.addEventListener('popstate', (e)=>{
+      if(location.hash.startsWith('#post-')){
+        $('#home').style.display = 'none';
+        $('#post').style.display = '';
+        $$('#post article').forEach(a => a.hidden = true);
+        const id = location.hash.replace('#','');
+        const el = document.getElementById(id);
+        if(el) el.hidden = false;
+      } else {
+        closePost();
+      }
+    });
+
+    function scrollToTop(){ window.scrollTo({top:0, behavior:'smooth'}); }
+
+  </script>
+
+  <!-- 構造化データ（必要に応じて更新） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "きのこ日和",
+    "description": "食用・毒・観察記・レシピのきのこブログ",
+    "url": "https://example.com",
+    "blogPost": [{
+      "@type": "BlogPosting",
+      "headline": "ベニテングタケの森歩きメモ",
+      "datePublished": "2025-08-01",
+      "image": "https://example.com/images/amanita.jpg"
+    }]
+  }
+  </script>
+
+  <!-- 使い方メモ：
+    - /images 以下に写真を置き、altを丁寧に書く
+    - 新しい記事カードは <article.card> をコピペし data-title / data-tags / 日付 / 見出し を更新
+    - 記事本文は #post 内に <article.post id="post-..."> を追加し、openPost('id') で開く
+    - もちろん、別HTMLに分けてリンクしてもOK
+  -->
+</body>
+</html>

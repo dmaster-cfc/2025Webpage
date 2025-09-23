@@ -1,0 +1,33 @@
+<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>p5.js 割合テスト</title>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js"></script>
+</head>
+<body>
+<script>
+let ratio = 30; // 30%
+
+function setup() {
+  createCanvas(400, 200);
+  textAlign(CENTER, CENTER);
+  textSize(20);
+}
+
+function draw() {
+  background(240);
+  // 全体テープ
+  fill(200);
+  rect(50, 80, 300, 40);
+  // 部分
+  fill(100, 200, 255);
+  rect(50, 80, 300 * ratio/100, 40);
+
+  fill(0);
+  text(ratio + "%", 200, 150);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<html>
+ <head>
+ <title>JH1238　山本誠悟</title>
+</head>
+<body>
+    <h1>しいたけ成長観察</h1>
+    

@@ -1,0 +1,13 @@
+<html>
+    <head>
+        <title>大阪市立水都国際中学校・高等学校の紹介</title>
+</head>
+    <body bgcolor="lightgreen">
+        <font color="blue">
+        <h1>大阪市立水都国際中学校・高等学校</h1>
+            住所　大阪市立住之江区南港中３−７−１３<br>
+            電話番号　06-7662-9600　（中学校）<br>
+        　　電場番号　06-7662-9601　（高校）  <br>
+            <img src="cafeteria.jpg" width="200" height="150">
+    </body>
+</html>

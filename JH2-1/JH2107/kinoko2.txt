@@ -1,0 +1,20 @@
+<html lang="jp">
+	<head>
+ 		<title>JH2107 奥平准-きのこ</title>
+		<meta charset="UTF-8">
+	</head>
+        <body background=">
+        <font color="yellow">
+        <img src="kinoko1.jpg"  width="23%"  height="70%"  aligo="left"><br>
+        <h1>　　　　　　　　　　　</h1><br>
+
+
+
+
+
+
+
+
+
+	</body>
+</html>
